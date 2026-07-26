@@ -18,19 +18,19 @@ This repository is organized into distinct directories to separate the customiza
 ## Setup & Installation
 
 1. **Clone the Repository:**
+Download/clone this repository (Or, you can choose from the two directories.)
 
-Dependencies:
+2. **Libraries:**
 Make sure you have Python installed, then install the required libraries:
 
     pip install pandas groq 
 
 Note: You can use the API key of your choice
     
-Set Up Your Groq API Key:
+3. **Set Up Your Groq API Key:**
 
 Get an API key and paste it into the script where indicated (client = Groq(api_key="")).
 
+4. **Run the Script!**
 
-Then, Run the Script!
-
-made with 🩷 by @Nasvyni (And Bernadette + Howard too I guess)
+Made with 🩷 by @Nasvyni (And Bernadette + Howard too I guess)
