@@ -31,6 +31,6 @@ Set Up Your Groq API Key:
 Get an API key and paste it into the script where indicated (client = Groq(api_key="")).
 
 
-Run the Script:
+Then, Run the Script!
 
-    python analyzer_howardette.py
+made with 🩷 by @Nasvyni (And Bernadette + Howard too I guess)
