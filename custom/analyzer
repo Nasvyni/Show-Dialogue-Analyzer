@@ -1,0 +1,62 @@
+import os
+import time
+import pandas as pd
+from groq import Groq #or, any API you want.
+
+client = Groq(api_key="") #or, any API you want.
+
+# --------------------------------------- CONfig ------------------------------------------------
+csv_filename = "your_dataset.csv"  # Replace with your dataset filename
+output_filename = "custom_analysis_results.md"
+target_characters = ["CharacterA", "CharacterB"]  # Characters you want to filter for
+model_name = "llama-3.1-8b-instant"  # Fast and lightweight model
+# ---------------------------------------------------------------------------------------
+
+if not os.path.exists(csv_filename):
+    print(f"CANT FIND {csv_filename}.")
+    exit()
+
+print("Loading dataset...")
+df = pd.read_csv(csv_filename)
+
+with open(output_filename, "w", encoding="utf-8") as out_f:
+    out_f.write("# Custom Analysis Results\n\n")
+
+    #grup it by your text's grouping column (e.g., episode_name, chapter, scene, etc.)
+    for group_name, group in df.groupby('episode_name', sort=False):
+        
+        print(f"Analyzing {group_name}...")
+        
+        # Combine dialogue/text for context
+        corpus_text = "\n".join([f"{row['person_scene']}: {row['dialogue']}" for _, row in group.iterrows()])
+        
+        # --- YOUR OWN PROMPT GOES HERE ---
+        prompt = f"""You are an expert data analyst. 
+Look for insert whatever you want involving {target_characters}.
+
+If you find anything relevant, output your findings clearly. 
+If there is nothing relevant, output EXACTLY the word: NONE.
+
+Text Excerpt:
+{corpus_text[:15000]}"""
+        
+        try:
+            chat_completion = client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=model_name,
+            )
+            
+            result_text = chat_completion.choices[0].message.content.strip()
+            print(result_text)
+            
+            #save findings that are right
+            if "NONE" not in result_text.upper():
+                out_f.write(result_text + "\n\n---\n\n")
+            
+        except Exception as e:
+            print(f"Skipped due to error: {e}")
+            time.sleep(10)
+        
+        time.sleep(2)
+
+print(f"Done! Results saved to: {output_filename}")
