@@ -23,7 +23,7 @@ Download/clone this repository (Or, you can choose from the two directories.)
 2. **Libraries:**
 Make sure you have Python installed, then install the required libraries:
 
-    pip install pandas groq 
+       pip install pandas groq 
 
 Note: You can use the API key of your choice
     
